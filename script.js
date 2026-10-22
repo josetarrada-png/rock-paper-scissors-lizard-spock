@@ -6,6 +6,19 @@ const beats = {
 	spock: ["scissors", "rock"],
 };
 
+const wins = {
+  "scissors-paper": "Tijeras cortan papel",
+  "paper-rock": "Papel envuelve piedra",
+  "rock-lizard": "Piedra aplasta lagarto",
+  "lizard-spock": "Lagarto envenena a Spock",
+  "spock-scissors": "Spock rompe tijeras",
+  "scissors-lizard": "Tijeras decapitan lagarto",
+  "lizard-paper": "Lagarto devora papel",
+  "paper-spock": "Papel desautoriza a Spock",
+  "spock-rock": "Spock vaporiza piedra",
+  "rock-scissors": "Piedra aplasta tijeras",
+};
+
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors", "lizard", "spock"];
     const randomIndex = Math.floor(Math.random() * choices.length);
@@ -27,62 +40,73 @@ const roundMessageElement= document.querySelector(".round-message");
 
 // al pulsar un botón: se marca como elegido, se lee su elección, el ordenador elige al azar y se juega una ronda
 choiceButtons.forEach((button) => {
-  	button.addEventListener("click", () => {
+  	button.addEventListener("click", () => {		
 	button.classList.add("selected");
 	choiceButtons.forEach((element) => {
     element.disabled = true;
   });
-    console.log(button.dataset.choice);
-	let humanChoice = button.dataset.choice;
+    let humanChoice = button.dataset.choice;
 	let computerChoice = getComputerChoice();
+	showComputerChoice(computerChoice);
 	playRound(humanChoice, computerChoice);
-	setTimeout(() => {
+
+	if (roundsPlayed < totalRounds) {
+		setTimeout(() => {
 		choiceButtons.forEach((element) => {
       	element.disabled = false;
-		element.classList.remove("selected")
+		element.classList.remove("selected")		
     });
-
+	document.querySelector(".computer-choice").textContent = "";
 	}, 1100);
-  });
+  }
+  });	
 });
 
-
-function playRound(humanChoice, computerChoice) {	
+function playRound(humanChoice, computerChoice) {		
 
  	if (humanChoice === computerChoice) {
- 		console.log("It's a tie");
 		roundMessageElement.textContent = "Empate";			
 
  	}else if (beats[humanChoice].includes(computerChoice)) {
  		humanScore = humanScore + 1
- 		console.log("You win");
 		roundsPlayed = roundsPlayed + 1;
 		roundNumber.textContent = roundsPlayed;	
 		scorePlayerElement.textContent = humanScore
-		roundMessageElement.textContent = "Ganaste"
+		let key = humanChoice + "-" + computerChoice;
+		roundMessageElement.textContent = "Ganaste: " + wins[key];
+		
  	}else {
 		computerScore = computerScore + 1
-		console.log("You lose");
 		roundsPlayed = roundsPlayed + 1;
 		roundNumber.textContent = roundsPlayed;	
 		scoreComputerElement.textContent = computerScore; 
-		roundMessageElement.textContent = "Perdiste";	
+		let key = computerChoice + "-" + humanChoice;
+    	roundMessageElement.textContent = "Perdiste: " + wins[key];	
 	}
 	if (roundsPlayed >= totalRounds) {
 		choiceButtons.forEach((element) => {
 			element.disabled = true
 		});
-
-		console.log("Game over");	
-		if (humanScore > computerScore) {
-			console.log("You win the game");					
-		}else if (humanScore < computerScore) {
-			console.log("Computer wins");			
-    	} else {
-			console.log("tie");			
-		} 
+		
+	if (humanScore > computerScore) {
+      	roundMessageElement.textContent =
+        roundMessageElement.textContent + ". ¡Ganas la partida!";
+    } else {
+      roundMessageElement.textContent =
+	roundMessageElement.textContent + ". Gana el ordenador la partida.";
+    }
 	}
+	
 };
+
+function showComputerChoice(choice) {
+	const slot = document.querySelector(".computer-choice");
+	slot.textContent = "";
+	const img = document.createElement("img");
+	img.src = `images/${choice}.png`;
+	img.alt = "";
+	slot.appendChild(img);
+}
 
 botonReiniciar.addEventListener("click", function () {
 
@@ -95,10 +119,12 @@ botonReiniciar.addEventListener("click", function () {
 
 	choiceButtons.forEach((element) => {
 	element.disabled = false;
-	element.classList.remove("selected");
-	roundMessageElement.textContent = ""
-
+	element.classList.remove("selected");	
 });	 
+
+roundMessageElement.textContent = "";
+document.querySelector(".computer-choice").textContent = "";
+
 });
 
 
