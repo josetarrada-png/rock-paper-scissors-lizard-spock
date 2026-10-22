@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Piedra, papel, tijeras, lagarto, Spock</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="favicon.png">
+</head>
+
+<body>
+
+	<div class="main-container">
+
+		<h1>Piedra, papel, tijeras, lagarto, Spock</h1>
+
+		<div class="score-container">
+
+			<div class="frame-player"><p>Jugador <span class="score-player">0</span></p></div>
+
+			<div class="frame-computer"><p>Ordenador <span class="score-computer">0</span></p></div>
+
+		</div>
+
+		<div class="buttons-container">
+
+			<button data-choice="rock"><img src="images/rock.png" alt="Elegir piedra"></button>
+			<button data-choice="paper"><img src="images/paper.png" alt="Elegir papel"></button>
+			<button data-choice="scissors"><img src="images/scissors.png" alt="Elegir tijeras"></button>
+			<button data-choice="lizard"><img src="images/lizard.png" alt="Elegir lagarto"></button>
+			<button data-choice="spock"><img src="images/spock.png" alt="Elegir Spock"></button>
+
+			<div class="computer-choice"></div>
+			
+		</div>
+		
+		<p class="round-message" aria-live="polite"></p>
+
+		<p>Ronda <span class="round-number">0</span> de <span class="total-rounds">5</span></p>
+		
+		<button class="restart-button">Reiniciar</button>
+		
+	</div>
+
+	<script src="script.js"></script>
+
+</body>
+
+</html>
